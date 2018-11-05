@@ -85,27 +85,43 @@ function getSortData(data, sortKey, reverse) {
     (a, b) => (a[k] < b[k] ? -1 : a[k] > b[k] ? 1 : 0) * [1, -1][+reverse],
   );
 }
+function validSpaces(text) {
+  text = text.trim();
+  text = text.replace(/ {1,}/g, ' ');
+  text = text.toLowerCase();
+
+  return text;
+}
 function getFilterData(data, search) {
-  const s = search;
+  const s = validSpaces(search);
   return data.filter(n =>
-    Object.values(n.name.split()).some(m => m.toString().includes(s)),
+    Object.values(n.name.split()).some(m =>
+      m
+        .toString()
+        .toLowerCase()
+        .includes(s),
+    ),
   );
 }
 function getPagesData(data) {
-  const countPages = 2;
+  let countFields = 5;
   let dataPages = [];
 
   function pages(lastKeyData, numberPages) {
     let currentData = [];
     numberPages = numberPages + 1;
+    let keyData = lastKeyData;
 
-    for (var i = 1, keyData = lastKeyData; i <= countPages; i++, keyData++) {
+    if (countFields > data.length) countFields = data.length;
+
+    for (var i = 1; i <= countFields; i++) {
       currentData.push(data[keyData]);
+      keyData = keyData + 1;
     }
 
-    if (keyData > data.length) return;
-
     dataPages.push({ page: numberPages, data: currentData });
+
+    if (keyData >= data.length) return;
 
     pages(keyData, numberPages);
   }
@@ -153,16 +169,18 @@ function eventsTable(parantElem, columns, data, nameClassTable) {
 
     const filtData = getFilterData(data, querySearch.value);
     const sortData = getSortData(filtData, column, reverse);
-    // const pagesData = getPagesData(sortData);
-    // console.log(sortData);
-    // console.log(pagesData);
-
-    const newTable = drawingTable(columns, sortData, column, reverse);
+    const pagesData = getPagesData(sortData);
+    const newTable = drawingTable(
+      columns,
+      pagesData[1 - 1].data,
+      column,
+      reverse,
+    );
     parantElem.replaceChild(newTable, elem);
   };
 }
 
-function createTable(idBoxTable, columns, data) {
+function createTable(idBoxTable, title, columns, data) {
   const pagesData = getPagesData(data);
   const newTable = drawingTable(columns, pagesData[1 - 1].data, '', '');
   let boxTable = document.getElementById(idBoxTable);
