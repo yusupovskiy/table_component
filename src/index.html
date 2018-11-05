@@ -1,15 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="./index.css">
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <title>Title</title>
-  <link rel="stylesheet" href="./index.css">
-</head>
+  <body>
+    <div id="root">
+      <div id="table-people" class="table-box">
+        <div>
+          <div>Таблица с людьми</div>
+          <input type="search" class="search">
+          <button class="button-search">Поиск</button>
+        </div>
+      </div>
+      <div id="table-companies" class="table-box">
+        <div>
+          <div>Таблица с компаниями</div>
+          <input type="search" class="search">
+          <button class="button-search">Поиск</button>
+        </div>
+      </div>
+    </div>
+    <script src="/index.js"></script>
 
-<body>
-  <h1>Hello World</h1>
-  <script src="./index.js"></script>
-</body>
+    <script type="text/javascript">
+      let people = {
+        columns: [
+          { header: 'ФИО', column: 'name', accessor: d => d.name },
+          { header: 'Возраст', column: 'age', accessor: d => d.age },
+          { header: 'Должность', column: 'worker', accessor: d => d.worker },
+          { header: 'Офис', column: 'office', accessor: d => d.office },
+          { header: 'Зарплата, RUB', column: 'salary', accessor: d => d.salary }
+        ],
+        data: [
+          { name: "Юсупов Расул", age: 21, worker: "Frontend разработчик", office: "Москва", salary: 110000 },
+          { name: "Магомедов Сагид", age: 22, worker: "Full-stack разработчик", office: "Москва", salary: 210000 },
+          { name: "Магомедов Магомед", age: 19, worker: "Frontend разработчик", office: "Москва", salary: 160000 },
+          { name: "Магомедов Сагид", age: 22, worker: "Full-stack разработчик", office: "Москва", salary: 210000 },
+          { name: "Магомедов Магомед", age: 19, worker: "Frontend разработчик", office: "Москва", salary: 160000 },
+          { name: "Магомедов Сагид", age: 22, worker: "Full-stack разработчик", office: "Москва", salary: 210000 },
+          { name: "Магомедов Магомед", age: 19, worker: "Frontend разработчик", office: "Москва", salary: 160000 },
+          { name: "Магомедов Сагид", age: 22, worker: "Full-stack разработчик", office: "Москва", salary: 210000 },
+          { name: "Магомедов Магомед", age: 19, worker: "Frontend разработчик", office: "Москва", salary: 160000 },
+          { name: "Магомедов Сагид", age: 22, worker: "Full-stack разработчик", office: "Москва", salary: 210000 },
+          { name: "Магомедов Магомед", age: 19, worker: "Frontend разработчик", office: "Москва", salary: 160000 },
+        ]
+      }
 
+      let companies = {
+        columns: [
+          { header: 'Название', column: 'name', accessor: d => d.name },
+          { header: 'Направление', column: 'direction', accessor: d => d.direction },
+          { header: 'Капитализация', column: 'capitalization', accessor: d => d.capitalization },
+          { header: 'Кол-во сотрудников', column: 'number_workers', accessor: d => d.number_workers }
+        ],
+        data: [
+          { name: "Loogle", direction: "Утилизация отходов", capitalization: "210 млрд.", number_workers: 21101},
+          { name: "Ундекс", direction: "Ритейл", capitalization: "110 млрд.", number_workers: 14101},
+          { name: "Ямазон", direction: "Общепит", capitalization: "610 млрд.", number_workers: 111101},
+          { name: "Пошта России", direction: "IT", capitalization: "10 млрд.", number_workers: 1101},
+          { name: "Нуканикель", direction: "Добыча с других", capitalization: "80 млрд.", number_workers: 801},
+          { name: "Майкасофт", direction: "Производство одежды", capitalization: "10 млрд.", number_workers: 3101},
+          { name: "Глазпром", direction: "Производство оптики", capitalization: "90 млрд.", number_workers: 701},
+          { name: "СпЁрбанк", direction: "Надежные вклады", capitalization: "10 млрд.", number_workers: 101},
+        ]
+      }
+
+      createTable('table-people', people.columns, people.data);
+      createTable('table-companies', companies.columns, companies.data);
+    </script>
+  </body>
 </html>

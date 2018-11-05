@@ -1,9 +1,103 @@
-html {
-  box-sizing: border-box;
+body {
+  font-family: monospace;
+  margin: 0;
 }
 
-*,
-*::after,
-*::before {
-  box-sizing: inherit;
+.table {
+  border-spacing: 0;
+  font-size: 1.1em;
+  color: #3a3a3a;
+}
+
+.table__tbody__tr:nth-child(2n+1) {
+  background-color: #f9f9f9;
+}
+
+.table__tbody__tr:nth-last-child(1) > .table__tbody__tr__td {
+  border: 0;
+}
+
+td.table__tbody__tr__td {
+  padding: 11px;
+  border-bottom: 2px solid #e5e5e5;
+}
+
+th.table__thead__tr__th {
+  text-align: left;
+  user-select: none;
+  cursor: pointer;
+  position: relative;
+  padding: 11px 35px 11px 20px;
+}
+
+th.table__thead__tr__th,
+.table {
+  border-bottom: 2px solid #363636;
+}
+
+.table__thead__tr__th::after,
+.table__thead__tr__th::before {
+  font-size: 11px;
+  position: absolute;
+  right: 5px;
+  color: #e1e1e1;
+}
+
+.table__thead__tr__th::after {
+  content: "⯅";
+  top: 8px;
+}
+
+.table__thead__tr__th::before {
+  content: "⯆";
+  bottom: 8px;
+}
+
+.table__thead__tr__th.increase::after {
+  color: transparent;
+}
+
+.table__thead__tr__th.increase::before {
+  color: #7f81d9;
+}
+
+.table__thead__tr__th.decrease::after {
+  color: #7f81d9;
+}
+
+.table__thead__tr__th.decrease::before {
+  color: transparent;
+}
+
+.table__tbody__tr:nth-child(2n+1) > .table__tbody__tr__td.increase,
+.table__tbody__tr:nth-child(2n+1) > .table__tbody__tr__td.decrease {
+  background-color: #f1f1f1;
+}
+
+.table__tbody__tr__td.increase,
+.table__tbody__tr__td.decrease {
+  background-color: #fafafa;
+  text-align: right;
+}
+
+.table-box {
+  margin: 60px 45px;
+}
+
+.paginations {
+  margin-top: 10px;
+  display: table;
+}
+
+.pagination.active {
+  background-color: #e5e5e5;
+  cursor: default;
+}
+
+.pagination {
+  float: left;
+  padding: 12px 16px;
+  border-radius: 50%;
+  cursor: pointer;
+  user-select: none;
 }
