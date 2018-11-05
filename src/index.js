@@ -112,10 +112,8 @@ function getPagesData(data) {
     numberPages = numberPages + 1;
     let keyData = lastKeyData;
 
-    if (countFields > data.length) countFields = data.length;
-
     for (var i = 1; i <= countFields; i++) {
-      currentData.push(data[keyData]);
+      if (data[keyData] != undefined) currentData.push(data[keyData]);
       keyData = keyData + 1;
     }
 
@@ -135,11 +133,13 @@ function eventsTable(parantElem, columns, data, nameClassTable) {
   parantElem.onclick = function(e) {
     const querySearch = parantElem.getElementsByClassName('search')[0];
 
-    if (querySearch.value.length <= 0 && e.target.tagName != 'TH') return;
+    // if (querySearch.value.length <= 0 && e.target.tagName != 'TH') return;
 
     const elem = parantElem.getElementsByClassName(nameClassTable)[0];
+    const elemPaginations = parantElem.getElementsByClassName('paginations')[0];
     let column;
     let reverse = false;
+    let numberPages = 1;
 
     if (e.target.tagName == 'TH') {
       const indexColumn = e.target.cellIndex,
@@ -148,8 +148,7 @@ function eventsTable(parantElem, columns, data, nameClassTable) {
       column = columns[indexColumn].column;
       if (classColumn.search('increase') > 0) reverse = false;
       else if (classColumn.search('decrease') > 0) reverse = true;
-    }
-    if (querySearch.value.length > 0) {
+    } else if (querySearch.value.length > 0) {
       const elemsHeaderTable = parantElem.getElementsByClassName(
         'table__thead__tr__th',
       );
@@ -165,18 +164,25 @@ function eventsTable(parantElem, columns, data, nameClassTable) {
           else if (th.className.search('decrease') > 0) reverse = false;
         }
       }
+    } else if (e.target.className == 'pagination') {
+      numberPages = e.target.textContent;
+      // let parent = e.target.parentNode;
     }
 
     const filtData = getFilterData(data, querySearch.value);
     const sortData = getSortData(filtData, column, reverse);
     const pagesData = getPagesData(sortData);
+
     const newTable = drawingTable(
       columns,
-      pagesData[1 - 1].data,
+      pagesData[numberPages - 1].data,
       column,
       reverse,
     );
     parantElem.replaceChild(newTable, elem);
+
+    const newPaginations = drawingPaginations(pagesData.length, numberPages);
+    parantElem.replaceChild(newPaginations, elemPaginations);
   };
 }
 
@@ -189,10 +195,10 @@ function createTable(idBoxTable, title, columns, data) {
   if (elemBoxTable == undefined) boxTable.appendChild(newTable);
   else boxTable.replaceChild(newTable, elemBoxTable);
 
-  eventsTable(boxTable, columns, data, 'table');
-
   const newPaginations = drawingPaginations(pagesData.length, 1);
   boxTable.appendChild(newPaginations);
+
+  eventsTable(boxTable, columns, data, 'table');
 }
 
 window.createTable = createTable;
