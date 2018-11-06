@@ -133,7 +133,9 @@ function eventsTable(parantElem, columns, data, nameClassTable) {
   parantElem.onclick = function(e) {
     const querySearch = parantElem.getElementsByClassName('search')[0];
 
-    // if (querySearch.value.length <= 0 && e.target.tagName != 'TH') return;
+    if (querySearch.value.length <= 0 
+      && e.target.tagName != 'TH' 
+      && e.target.className != 'pagination') return;
 
     const elem = parantElem.getElementsByClassName(nameClassTable)[0];
     const elemPaginations = parantElem.getElementsByClassName('paginations')[0];
